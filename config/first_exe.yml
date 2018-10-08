@@ -1,0 +1,29 @@
+---
+  execution:
+    - concurrency: 1
+      hold-for: 20s
+      scenario: with_script
+      
+  scenarios:
+    with_script:
+      script: ../script/OneLoginMultipleAction.jmx
+
+  modules:
+    blazemeter:
+      token: 0763a30bc6ecdb982599c527:af7149dd23cacaf6a6ed5feb36e7054110d436742a48da4c2cba6eaf4f5c0dbcf1224a0a
+
+  reporting:
+    - module: console
+    - module: final-stats
+      summary: true
+      percentiles: true
+      failed-labels: false
+      test-duration: true
+      dump-csv: TaurusResult/perf_result_csv.csv
+    - module: blazemeter
+      report-name: Taurus test report
+      test: Taurus test
+      project: Taurus test project
+
+  settings:
+    artifacts-dir: TaurusResult
