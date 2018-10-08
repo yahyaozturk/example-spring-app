@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Initialize') {
+    stage('Initialize Pipeline') {
       steps {
         sh '''
                     echo "PATH = ${PATH}"
@@ -9,22 +9,22 @@ pipeline {
                 '''
       }
     }
-    stage('Clean') {
+    stage('Clean Workspace') {
       steps {
         sh 'mvn -Dmaven.test.failure.ignore=true clean'
       }
     }
-    stage('Build and Package') {
+    stage('Build and Package Microservice') {
       steps {
         sh 'mvn -Dmaven.test.failure.ignore=true package'
       }
     }
-    stage('Publish Test Report') {
+    stage('Run Unit Test and Publish Report') {
       steps {
         junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
-    stage('Load Test') {
+    stage('Run Load Test') {
       steps {
         bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
       }
