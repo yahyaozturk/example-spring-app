@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-    maven 'MAVEN'
-  }
   stages {
     stage('Initialize') {
       steps {
@@ -24,8 +21,16 @@ pipeline {
     }
     stage('Publish Test Report') {
       steps {
-           junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
-        }  
-      }    
+        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+      }
+    }
+    stage('Load Test') {
+      steps {
+        bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
+      }
+    }
+  }
+  tools {
+    maven 'MAVEN'
   }
 }
