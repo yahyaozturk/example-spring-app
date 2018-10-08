@@ -52,13 +52,13 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         sh "docker version"
-        sh "docker tag xaph/example-spring-app:0.0.1-SNAPSHOT yahyaozturk/iph:${env.BUILD_TAG}"
+        sh "docker tag xaph/example-spring-app:0.0.1-SNAPSHOT yahyaozturk/vf:${env.BUILD_TAG}"
       }
     }
     stage('Publish to Docker Repository') {
       steps {        
         sh "docker login -u yahyaozturk -p Avis1111"
-        sh "docker push yahyaozturk/iph:${env.BUILD_TAG}"
+        sh "docker push yahyaozturk/vf:${env.BUILD_TAG}"
       }
     }
     stage('Deployment') {
