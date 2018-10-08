@@ -2,7 +2,7 @@
   execution:
     - concurrency: 1
       hold-for: 20s
-      scenario: with_script
+      scenario: sample
       
   scenarios:
     sample:
