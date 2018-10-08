@@ -14,6 +14,28 @@ pipeline {
         sh 'mvn -Dmaven.test.failure.ignore=true clean'
       }
     }
+    stage('SonarQube analysis') {
+      steps {
+        script {
+          scannerHome = tool 'Sonar Scanner'
+        }
+        withSonarQubeEnv('Sonar') {
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
+    }
+  stage("Quality Gate"){
+    steps {
+      script {
+        timeout(time: 1, unit: 'HOURS') {
+          qg = waitForQualityGate() 
+          }
+        if (qg.status != 'OK') {
+          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          }
+        }
+      }
+    }
     stage('Build and Package Microservice') {
       steps {
         sh 'mvn -Dmaven.test.failure.ignore=true package'
