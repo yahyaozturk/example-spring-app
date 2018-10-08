@@ -14,6 +14,11 @@ pipeline {
         sh 'mvn -Dmaven.test.failure.ignore=true clean'
       }
     }
+    stage('Build and Package Microservice') {
+      steps {
+        sh 'mvn -Dmaven.test.failure.ignore=true package'
+      }
+    }
     stage('SonarQube analysis') {
       steps {
         script {
@@ -22,6 +27,11 @@ pipeline {
         withSonarQubeEnv('SONAR SERVER') {
           sh "${scannerHome}/bin/sonar-scanner"
         }
+      }
+    }
+  stage('Run Unit Test and Publish Report') {
+      steps {
+        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
   stage("Quality Gate"){
@@ -34,16 +44,6 @@ pipeline {
           error "Pipeline aborted due to quality gate failure: ${qg.status}"
           }
         }
-      }
-    }
-    stage('Build and Package Microservice') {
-      steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true package'
-      }
-    }
-    stage('Run Unit Test and Publish Report') {
-      steps {
-        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
     stage('Run Load Test') {
