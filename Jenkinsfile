@@ -46,9 +46,24 @@ pipeline {
         }
       }
     }
+   stage('Deploy to DEV') {
+      steps {
+        sh 'mvn -Dmaven.test.failure.ignore=true clean'
+      }
+    }
+  stage('Deploy to TEST') {
+      steps {
+        sh 'mvn -Dmaven.test.failure.ignore=true clean'
+      }
+    }
     stage('Run Load Test') {
       steps {
         bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
+      }
+    }
+   stage('Deploy to STAGING') {
+      steps {
+        sh 'mvn -Dmaven.test.failure.ignore=true clean'
       }
     }
   }
