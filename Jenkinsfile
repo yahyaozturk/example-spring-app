@@ -19,6 +19,11 @@ pipeline {
         sh 'mvn -Dmaven.test.failure.ignore=true package'
       }
     }
+    stage('Execute Unit Test') {
+      steps {
+        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+      }
+    }
     stage('SonarQube analysis') {
       steps {
         script {
@@ -29,11 +34,6 @@ pipeline {
           sh "${scannerHome}/bin/sonar-scanner"
         }
 
-      }
-    }
-    stage('Run Unit Test and Publish Report') {
-      steps {
-        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
     stage('Quality Gate') {
@@ -51,14 +51,9 @@ pipeline {
     }
     stage('Deployment') {
       parallel {
-        stage('Deployment') {
-          steps {
-            sh 'mvn -Dmaven.test.failure.ignore=true clean'
-          }
-        }
         stage('DEV') {
           steps {
-            sh 'echo "HELLO"'
+            sh 'mvn -Dmaven.test.failure.ignore=true clean'
           }
         }
         stage('TEST') {
@@ -68,9 +63,28 @@ pipeline {
         }
       }
     }
-    stage('Run Load Test') {
-      steps {
-        bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
+    stage('Testing') {
+      parallel {
+        stage('Run Health Suite') {
+          steps {
+            junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+          }
+        }
+        stage('Run Smoke Suite') {
+          steps {
+            junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+          }
+        }
+        stage('Run Regression Suite') {
+          steps {
+            junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+          }
+        }
+        stage('Run Load Test') {
+          steps {
+            bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
+          }
+        }
       }
     }
     stage('Deploy to Pre PROD') {
