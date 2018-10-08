@@ -24,36 +24,48 @@ pipeline {
         script {
           scannerHome = tool 'SONAR'
         }
+
         withSonarQubeEnv('SONAR SERVER') {
           sh "${scannerHome}/bin/sonar-scanner"
         }
+
       }
     }
-  stage('Run Unit Test and Publish Report') {
+    stage('Run Unit Test and Publish Report') {
       steps {
         junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
       }
     }
-  stage("Quality Gate"){
-    steps {
-      script {
-        timeout(time: 1, unit: 'HOURS') {
-          qg = waitForQualityGate() 
+    stage('Quality Gate') {
+      steps {
+        script {
+          timeout(time: 1, unit: 'HOURS') {
+            qg = waitForQualityGate()
           }
-        if (qg.status != 'OK') {
-          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
           }
         }
+
       }
     }
-   stage('Deploy to DEV') {
-      steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true clean'
-      }
-    }
-  stage('Deploy to TEST') {
-      steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true clean'
+    stage('Deployment') {
+      parallel {
+        stage('Deployment') {
+          steps {
+            sh 'mvn -Dmaven.test.failure.ignore=true clean'
+          }
+        }
+        stage('DEV') {
+          steps {
+            sh 'echo "HELLO"'
+          }
+        }
+        stage('TEST') {
+          steps {
+            sh 'echo "HELLO"'
+          }
+        }
       }
     }
     stage('Run Load Test') {
@@ -61,7 +73,7 @@ pipeline {
         bzt(params: 'config/first_exe.yml', generatePerformanceTrend: true, printDebugOutput: true)
       }
     }
-   stage('Deploy to STAGING') {
+    stage('Deploy to Pre PROD') {
       steps {
         sh 'mvn -Dmaven.test.failure.ignore=true clean'
       }
