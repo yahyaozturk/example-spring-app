@@ -5,8 +5,11 @@
       scenario: with_script
       
   scenarios:
-    with_script:
-      script: ../script/OneLoginMultipleAction.jmx
+    sample:
+      headers:
+        Connection: close
+      requests:
+        - http://localhost/
 
   modules:
     blazemeter:
