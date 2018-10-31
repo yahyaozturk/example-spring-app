@@ -19,9 +19,18 @@ pipeline {
         sh 'mvn -Dmaven.test.failure.ignore=true package'
       }
     }
-    stage('Execute Unit Test') {
-      steps {
-        junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+    stage('Execute Tests') {
+      parallel {
+        stage('Execute Unit Test') {
+          steps {
+            junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+          }
+        }
+        stage('Execute Functional Test') {
+          steps {
+            sh 'echo "Functional Tests are running"'
+          }
+        }
       }
     }
     stage('SonarQube analysis') {
@@ -51,13 +60,13 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh "docker version"
+        sh 'docker version'
         sh "docker tag xaph/example-spring-app:0.0.1-SNAPSHOT yahyaozturk/vf:${env.BUILD_TAG}"
       }
     }
     stage('Publish to Docker Repository') {
-      steps {        
-        sh "docker login -u yahyaozturk -p Avis1111"
+      steps {
+        sh 'docker login -u yahyaozturk -p Avis1111'
         sh "docker push yahyaozturk/vf:${env.BUILD_TAG}"
       }
     }
