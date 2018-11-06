@@ -11,5 +11,5 @@ stages:
       buildContext: .
       tag: yahyaozturk/simpleservice
       pushRemote: true
-      registry: registry.hub.docker.com
+      registry: DockerHub
 timeout: 60
