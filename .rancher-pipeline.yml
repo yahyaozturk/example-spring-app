@@ -3,7 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3-jdk-7
-      shellScript: mvn -Dmaven.test.failure.ignore=true clean
+      shellScript: mvn -Dmaven.test.failure.ignore=true package
 - name: Publish
   steps:
   - publishImageConfig:
