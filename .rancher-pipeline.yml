@@ -2,7 +2,7 @@ stages:
 - name: Compile
   steps:
   - runScriptConfig:
-      image: maven:3-jdk-7
+      image: maven:3-jdk-8
       shellScript: mvn -Dmaven.test.failure.ignore=true package
 - name: Publish
   steps:
