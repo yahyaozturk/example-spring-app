@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: yahya/simpleservice
+      tag: yahyaozturk/simpleservice
       pushRemote: true
       registry: registry.hub.docker.com
 timeout: 60
