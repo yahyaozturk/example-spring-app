@@ -10,5 +10,5 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: yahya/simpleservice
-      registry: 127.0.0.1:34095
+      registry: registry.hub.docker.com
 timeout: 60
