@@ -1,0 +1,14 @@
+stages:
+- name: Compile
+  steps:
+  - runScriptConfig:
+      image: java:8
+      shellScript: mvn package
+- name: Publish
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: yahya/simpleservice
+      registry: 127.0.0.1:34095
+timeout: 60
