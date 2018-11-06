@@ -10,5 +10,6 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: yahya/simpleservice
+      pushRemote: true
       registry: registry.hub.docker.com
 timeout: 60
