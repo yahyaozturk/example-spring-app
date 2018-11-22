@@ -31,6 +31,6 @@ spec:
       - name: docker-registry
       containers:
       - name: simpleservice
-        image: simpleservice:${CICD_EXECUTION_SEQUENCE}
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
         ports:
         - containerPort: 80
