@@ -28,7 +28,7 @@ spec:
         app: simpleservice
     spec:
       imagePullSecrets:
-      - name: pipeline-docker-registry
+      - name: docker-registry
       containers:
       - name: simpleservice
         image: simpleservice:${CICD_EXECUTION_SEQUENCE}
