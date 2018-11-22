@@ -12,4 +12,8 @@ stages:
       tag: yahyaozturk/simpleservice:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
+- name: Deployment
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
 timeout: 60
