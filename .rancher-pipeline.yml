@@ -10,8 +10,7 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: yahyaozturk/simpleservice:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
-      registry: index.docker.io
+      registry: 127.0.0.1:34988
 - name: Deployment
   steps:
   - applyYamlConfig:
