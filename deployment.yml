@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: simple-service
+  name: simpleapp-service
 spec:
   selector:
-    app: simpleservice
+    app: simpleapp
   type: NodePort
   ports:
     - protocol: TCP
@@ -14,23 +14,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-simpleservice
+  name: example-simpleapp
   labels:
-    app: simpleservice
+    app: simpleapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simpleservice
+      app: simpleapp
   template:
     metadata:
       labels:
-        app: simpleservice
+        app: simpleapp
     spec:
       imagePullSecrets:
-      - name: docker-registry
+      - name: pipeline-docker-registry
       containers:
-      - name: simpleservice
+      - name: maven
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
         ports:
         - containerPort: 80
