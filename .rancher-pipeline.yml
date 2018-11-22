@@ -9,7 +9,9 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: yahyaozturk/simpleservice:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
-      registry: index.docker.io
+      tag: simpleservice:${CICD_EXECUTION_SEQUENCE}
+- name: Deployment
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yml
 timeout: 60
