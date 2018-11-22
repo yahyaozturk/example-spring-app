@@ -1,4 +1,4 @@
-package com.kodgemisi.demo.examplespringapp;
+package com.quasys.demo.examplespringapp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

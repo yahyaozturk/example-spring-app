@@ -1,4 +1,4 @@
-package com.kodgemisi.demo.examplespringapp.controller;
+package com.quasys.demo.examplespringapp.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

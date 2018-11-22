@@ -1,4 +1,4 @@
-package com.kodgemisi.demo.examplespringapp;
+package com.quasys.demo.examplespringapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
