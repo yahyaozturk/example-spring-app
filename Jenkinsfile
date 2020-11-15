@@ -7,6 +7,10 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
+        script {
+          dockerHome = tool 'DOCKER'
+          sh "${dockerHome}/bin/docker version"
+        }
       }
     }
     stage('Clean Workspace') {
